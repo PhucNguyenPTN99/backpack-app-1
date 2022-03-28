@@ -157,9 +157,6 @@ class ProgramCrudController extends CrudController
             'store_in' => 'articles',
             'tab' => 'Resources',
         ]);
-
-
-
     }
 
     protected function setupUpdateOperation()
