@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ProgramRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
+use App\Controllers\Admin\ArticleCrudController;
 /**
  * Class ProgramCrudController
  * @package App\Http\Controllers\Admin
@@ -98,6 +98,7 @@ class ProgramCrudController extends CrudController
                 'store_in' => 'meta',// [optional]
                 'tab'      => 'Resources'
             ],
+            
             [
                 'name'     => 'employers',
                 'label'    => "Employers Tab",
@@ -118,7 +119,47 @@ class ProgramCrudController extends CrudController
 
         CRUD::field('about_banner')->label('About Banner')->type('ckeditor')->tab('Resources');
         CRUD::field('about_infos')->label('About Information')->type('ckeditor')->tab('Resources');
-        CRUD::field('articles')->label('Articles')->type('text')->tab('Resources');
+        // CRUD::field('articles')->label('Articles')->type('text')->tab('Resources');
+
+        // $this->crud->addField([
+        //     'label' => 'Article',
+        //     'type' => 'select2_multiple',
+        //     'name' => 'program_articles', // the db column for the foreign key
+            
+            
+        //     'entity' => 'articles', // the method that defines the relationship in your Model
+        //     'attribute' => 'title', // foreign key attribute that is shown to user
+        //     'model' => 'App\Models\Article', // foreign key model
+            
+            
+        //     'store_in' => 'articles',
+        //     'fake'     => true,
+        //     'tab'   => 'Resources',
+        //     'pivot'     => false,
+        // ]);
+
+        $this->crud->addField([
+            'entity' => 'articles',
+            'name' => 'articles',
+            'label' => "Articles",
+            'attribute'=>'title',
+            'type' => 'select2_from_ajax_multiple',
+            'data_source' => url('api/Article'),
+
+
+            'minimum_input_length' => 2,
+            'placeholder' => 'Select Articles',
+            'include_all_form_fields'=>false,
+            'model' => 'App\Models\Article',
+
+
+            'pivot' => false,
+            'store_in' => 'articles',
+            'tab' => 'Resources',
+        ]);
+
+
+
     }
 
     protected function setupUpdateOperation()

@@ -5,3 +5,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('image') }}'><i class='nav-icon las la-image'></i> Images</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('program') }}'><i class='nav-icon las la-laptop-code'></i> Programs</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('module') }}'><i class='nav-icon las la-server'></i> Modules</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('article') }}'><i class='nav-icon la la-question'></i> Articles</a></li>

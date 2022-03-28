@@ -24,10 +24,11 @@ class Program extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fakeColumns = ['meta'];
-    protected $fillable = ['meta', 'subtitle', 'name', 'slug', 'description', 'banner_image', 'logo_image', 'about_banner','about_infos', 'articles', 'status' ];
+    protected $fakeColumns = ['meta', 'articles'];
+    protected $fillable = ['id', 'meta', 'subtitle', 'name', 'slug', 'description', 'banner_image', 'logo_image', 'about_banner','about_infos', 'articles', 'status' ];
     protected $casts = [
     'meta' => 'array',
+    'articles' => 'array',
     ];
     // protected $fillable = [];
     // protected $hidden = [];
@@ -39,6 +40,27 @@ class Program extends Model
         static::deleting(function($obj) {
             Storage::delete(Str::replaceFirst('storage/','public/', $obj->image));
         });
+    }
+
+    public function articles()
+	{
+		return $this->belongsToMany('App\Models\Article', 'articles', 'id');
+	}
+
+    public static function articleModule($empty = false)
+    {
+        $articles= article::with('articles')->get()->mapWithKeys(function ($article) {
+
+			$article_id = $article->id;
+			$article_name = $article->name;
+			return [$article_id => $article_name];
+        });
+        if ($empty) {
+            $articles = collect([0 => '-'])->union($articles);
+        }
+        var_dump($articles);
+        return $articles->all();
+
     }
 
     public function setImageAttribute($value)
